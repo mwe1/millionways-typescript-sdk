@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2025-06-21)
+
+Full Changelog: [v1.0.0...v1.0.1](https://github.com/mwe1/millionways-typescript-sdk/compare/v1.0.0...v1.0.1)
+
+### Bug Fixes
+
+* **client:** explicitly copy fetch in withOptions ([8fa13e1](https://github.com/mwe1/millionways-typescript-sdk/commit/8fa13e1e53c32612411e3d926fc9db642f091d43))
+
 ## 1.0.0 (2025-06-19)
 
 Full Changelog: [v0.0.1-alpha.0...v1.0.0](https://github.com/mwe1/millionways-typescript-sdk/compare/v0.0.1-alpha.0...v1.0.0)
