@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource getUserAnalysis', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('retrieve: only required params', async () => {
     const responsePromise = client.getUserAnalysis.retrieve('userId', { apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource getUserAnalysis', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.getUserAnalysis.retrieve('userId', { apiKey: 'apiKey' });
   });

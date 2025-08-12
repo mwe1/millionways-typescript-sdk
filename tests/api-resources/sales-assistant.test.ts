@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource salesAssistant', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generateInsights: only required params', async () => {
     const responsePromise = client.salesAssistant.generateInsights({ apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource salesAssistant', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generateInsights: required and optional params', async () => {
     const response = await client.salesAssistant.generateInsights({
       apiKey: 'apiKey',
