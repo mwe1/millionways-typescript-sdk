@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource mentalHealthChatbot', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generateResponse: only required params', async () => {
     const responsePromise = client.mentalHealthChatbot.generateResponse({ apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource mentalHealthChatbot', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generateResponse: required and optional params', async () => {
     const response = await client.mentalHealthChatbot.generateResponse({
       apiKey: 'apiKey',

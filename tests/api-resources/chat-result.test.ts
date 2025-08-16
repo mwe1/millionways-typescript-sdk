@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource chatResult', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generate: only required params', async () => {
     const responsePromise = client.chatResult.generate({ apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource chatResult', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('generate: required and optional params', async () => {
     const response = await client.chatResult.generate({
       apiKey: 'apiKey',

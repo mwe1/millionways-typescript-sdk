@@ -106,6 +106,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
   /**
@@ -225,17 +227,19 @@ export class Millionways {
    * Create a new client instance re-using the same options given to the current client with optional overriding.
    */
   withOptions(options: Partial<ClientOptions>): this {
-    return new (this.constructor as any as new (props: ClientOptions) => typeof this)({
+    const client = new (this.constructor as any as new (props: ClientOptions) => typeof this)({
       ...this._options,
       baseURL: this.baseURL,
       maxRetries: this.maxRetries,
       timeout: this.timeout,
       logger: this.logger,
       logLevel: this.logLevel,
+      fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       ...options,
     });
+    return client;
   }
 
   /**
@@ -262,7 +266,7 @@ export class Millionways {
     );
   }
 
-  protected authHeaders(opts: FinalRequestOptions): NullableHeaders | undefined {
+  protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
     if (this.apiKey == null) {
       return undefined;
     }
@@ -397,7 +401,9 @@ export class Millionways {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
+    const { req, url, timeout } = await this.buildRequest(options, {
+      retryCount: maxRetries - retriesRemaining,
+    });
 
     await this.prepareRequest(req, { url, options });
 
@@ -475,7 +481,7 @@ export class Millionways {
     } with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
-      const shouldRetry = this.shouldRetry(response);
+      const shouldRetry = await this.shouldRetry(response);
       if (retriesRemaining && shouldRetry) {
         const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
 
@@ -574,7 +580,7 @@ export class Millionways {
     }
   }
 
-  private shouldRetry(response: Response): boolean {
+  private async shouldRetry(response: Response): Promise<boolean> {
     // Note this is not a standard header.
     const shouldRetryHeader = response.headers.get('x-should-retry');
 
@@ -651,10 +657,10 @@ export class Millionways {
     return sleepSeconds * jitter * 1000;
   }
 
-  buildRequest(
+  async buildRequest(
     inputOptions: FinalRequestOptions,
     { retryCount = 0 }: { retryCount?: number } = {},
-  ): { req: FinalizedRequestInit; url: string; timeout: number } {
+  ): Promise<{ req: FinalizedRequestInit; url: string; timeout: number }> {
     const options = { ...inputOptions };
     const { method, path, query, defaultBaseURL } = options;
 
@@ -662,7 +668,7 @@ export class Millionways {
     if ('timeout' in options) validatePositiveInteger('timeout', options.timeout);
     options.timeout = options.timeout ?? this.timeout;
     const { bodyHeaders, body } = this.buildBody({ options });
-    const reqHeaders = this.buildHeaders({ options: inputOptions, method, bodyHeaders, retryCount });
+    const reqHeaders = await this.buildHeaders({ options: inputOptions, method, bodyHeaders, retryCount });
 
     const req: FinalizedRequestInit = {
       method,
@@ -678,7 +684,7 @@ export class Millionways {
     return { req, url, timeout: options.timeout };
   }
 
-  private buildHeaders({
+  private async buildHeaders({
     options,
     method,
     bodyHeaders,
@@ -688,7 +694,7 @@ export class Millionways {
     method: HTTPMethod;
     bodyHeaders: HeadersLike;
     retryCount: number;
-  }): Headers {
+  }): Promise<Headers> {
     let idempotencyHeaders: HeadersLike = {};
     if (this.idempotencyHeader && method !== 'get') {
       if (!options.idempotencyKey) options.idempotencyKey = this.defaultIdempotencyKey();
@@ -704,7 +710,7 @@ export class Millionways {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
       },
-      this.authHeaders(options),
+      await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,
@@ -786,6 +792,7 @@ export class Millionways {
   summarize: API.Summarize = new API.Summarize(this);
   getUser: API.GetUser = new API.GetUser(this);
 }
+
 Millionways.GetCall = GetCall;
 Millionways.GetUserAnalysis = GetUserAnalysis;
 Millionways.GetUserChats = GetUserChats;
@@ -800,6 +807,7 @@ Millionways.ChatStream = ChatStream;
 Millionways.SalesAssistant = SalesAssistant;
 Millionways.Summarize = Summarize;
 Millionways.GetUser = GetUser;
+
 export declare namespace Millionways {
   export type RequestOptions = Opts.RequestOptions;
 

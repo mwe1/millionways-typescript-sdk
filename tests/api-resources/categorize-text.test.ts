@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource categorizeText', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('classify: only required params', async () => {
     const responsePromise = client.categorizeText.classify({ apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource categorizeText', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('classify: required and optional params', async () => {
     const response = await client.categorizeText.classify({
       apiKey: 'apiKey',
@@ -29,7 +29,7 @@ describe('resource categorizeText', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('classifyByUser: only required params', async () => {
     const responsePromise = client.categorizeText.classifyByUser('userId', { apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -41,7 +41,7 @@ describe('resource categorizeText', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('classifyByUser: required and optional params', async () => {
     const response = await client.categorizeText.classifyByUser('userId', {
       apiKey: 'apiKey',

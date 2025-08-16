@@ -8,7 +8,7 @@ const client = new Millionways({
 });
 
 describe('resource categorizeAudio', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.categorizeAudio.create({ apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource categorizeAudio', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.categorizeAudio.create({
       apiKey: 'apiKey',
@@ -28,7 +28,7 @@ describe('resource categorizeAudio', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('createForUser: only required params', async () => {
     const responsePromise = client.categorizeAudio.createForUser('userId', { apiKey: 'apiKey' });
     const rawResponse = await responsePromise.asResponse();
@@ -40,7 +40,7 @@ describe('resource categorizeAudio', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('createForUser: required and optional params', async () => {
     const response = await client.categorizeAudio.createForUser('userId', {
       apiKey: 'apiKey',
