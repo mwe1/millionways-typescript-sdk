@@ -792,6 +792,7 @@ export class Millionways {
   summarize: API.Summarize = new API.Summarize(this);
   getUser: API.GetUser = new API.GetUser(this);
 }
+
 Millionways.GetCall = GetCall;
 Millionways.GetUserAnalysis = GetUserAnalysis;
 Millionways.GetUserChats = GetUserChats;
@@ -806,6 +807,7 @@ Millionways.ChatStream = ChatStream;
 Millionways.SalesAssistant = SalesAssistant;
 Millionways.Summarize = Summarize;
 Millionways.GetUser = GetUser;
+
 export declare namespace Millionways {
   export type RequestOptions = Opts.RequestOptions;
 
